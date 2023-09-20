@@ -108,10 +108,7 @@ ax.set_xlabel("tiempo(s)", fontsize=13)
 ax.set_ylabel("posición (m)", fontsize=13)
 ax.legend()
 
-
-
 bx=fig2.add_subplot(221)
-
 bx.plot(x1f,v1f,'tab:green')
 #bx.set_xlabel(r"$\theta $ (rad)", fontsize=13)
 bx.set_ylabel("velocidad (m/s)", fontsize=13)
