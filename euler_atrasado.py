@@ -4,7 +4,7 @@ Created on Tue Sep 26 11:19:41 2023
 
 @author: x
 """
-#metodo de Euler atrasado
+#euler atrasado
 import scipy.sparse.linalg
 import numpy as np
 import matplotlib.pyplot as plt
@@ -30,10 +30,10 @@ def back_euler(u0, L, Nx, dx, Nt, dt, alpha):
     supe[:] = -mu
     
     #condiciones de frontera en la matriz
-    diag[0] = 1
+    diag[0] = 10
     infe[-1] = 0
     supe[0] = 0
-    diag[Nx-1] = 1
+    diag[Nx-1] = 5
     
     A = scipy.sparse.diags(diagonals=[supe, diag, infe], offsets=[1,0,-1], 
                            shape=(Nx,Nx), format='csr')
@@ -60,7 +60,7 @@ Nx = 50
 dx = L/Nx
 
 Nt = 1000
-dt = 0.01
+dt = 0.00001
 
 sigma = 0.5
 u0 = lambda x: np.exp(-1/2*((x-L/2)*2/(sigma*2)))
@@ -68,6 +68,7 @@ u0 = lambda x: np.exp(-1/2*((x-L/2)*2/(sigma*2)))
 
 
 x,t,mu,sol = back_euler(u0, L, Nx, dx, Nt, dt, alpha)
+
 plt.figure(1)
 plt.contourf(x,t,sol)
 plt.ylabel('Tiempo[s]')
