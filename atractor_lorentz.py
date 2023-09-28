@@ -14,7 +14,9 @@ z'=xy-bz
 r:num de rayleigh
 s: nume de Prandtl
 b: parametro asociado al tamaño fisico del sistema 
+
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint,solve_ivp
