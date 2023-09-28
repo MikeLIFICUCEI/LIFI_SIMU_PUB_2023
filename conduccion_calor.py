@@ -46,7 +46,7 @@ T0[0] = T_1
 T0[-1] = T_2
 
 
-
+###
 x,t,mu,sol = euler(Nt, dx, dt, T0, L, alpha, T_1, T_2)
 
 plt.figure(1)
