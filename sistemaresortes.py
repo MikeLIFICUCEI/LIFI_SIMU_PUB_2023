@@ -78,12 +78,13 @@ Vp_f1 = (-b1*V1-k1*(X1-L1)/m1+k2*(X2-X1-L2))/m1+mu1[1]*potencia((X1-L1),3)/m1+mu
 Vp_f2 =  (-b2*V2-k2*(X2-X1-L2))/m2+mu2[1]*potencia((X2-X1-L2),3)+F2*np.cos(t2*w2)
 """
 #GRAFICAS
-fig1=plt.figure(1)
+fig1=plt.figure(1,figsize=(10,10))
 ax=fig1.add_subplot(212)
-ax.plot(t1,x1,"tab:green")
-ax.plot(t1,x2,"tab:red")
+ax.plot(t1,x1,"tab:green",label="Resorte 1")
+ax.plot(t1,x2,"tab:red",label="Resorte 2")
 ax.set_xlabel("tiempo(s)", fontsize=13)
 ax.set_ylabel("posición (m)", fontsize=13)
+ax.legend()
 
 
 bx=fig1.add_subplot(221)
@@ -94,25 +95,27 @@ bx.set_ylabel("velocidad (m/s)", fontsize=13)
 
 cx=fig1.add_subplot(222)
 cx.plot(x2,v2,'tab:red')
+plt.suptitle("Oscilación libre",fontsize=18)
+
 #cx.set_xlabel(r"$\theta $ (rad)", fontsize=13)
 #cx.set_ylabel(r"$\omega $ (rad/s)", fontsize=13)
 
-fig2=plt.figure(2)
+fig2=plt.figure(2,figsize=(10,10))
 ax=fig2.add_subplot(212)
-ax.plot(t2,x1f,"tab:green")
-ax.plot(t2,x2f,"tab:red")
+ax.plot(t2,x1f,"tab:green",label="Resorte1")
+ax.plot(t2,x2f,"tab:red",label="Resorte 2")
 ax.set_xlabel("tiempo(s)", fontsize=13)
 ax.set_ylabel("posición (m)", fontsize=13)
-
+ax.legend()
 
 bx=fig2.add_subplot(221)
-
 bx.plot(x1f,v1f,'tab:green')
 #bx.set_xlabel(r"$\theta $ (rad)", fontsize=13)
 bx.set_ylabel("velocidad (m/s)", fontsize=13)
 
 cx=fig2.add_subplot(222)
 cx.plot(x2f,v2f,'tab:red')
+plt.suptitle("Oscilación forzada",fontsize=18)
 #cx.set_xlabel(r"$\theta $ (rad)", fontsize=13)
 #cx.set_ylabel(r"$\omega $ (rad/s)", fontsize=13)
 
