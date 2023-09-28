@@ -25,7 +25,10 @@ def euler(Nt,dx,dt,u0,L,alpha,uf_1,uf_2):
     u[0] = uf_1
     u[-1] = uf_2
     
+    
     for n in range(Nt):
+        u[0] = uf_1
+        u[-1] = uf_2
         u_n[1:-1] = u[1:-1] + mu*(u[:-2] - 2*u[1:-1] + u[2:])
         u = u_n
         sol[n] = u
@@ -36,18 +39,15 @@ L = 1
 sigma = 0.5
 Nt = 500
 dx = 0.05
-dt = 0.05
-x = np.arange(0, L+dx, dx)
+dt = 0.0004
+u0 = lambda x:np. zeros (len (x))
 #Condiciones de frontera
-T_1 = 0
-T_2 = 100
-T0 = np.zeros(len(x))
-T0[0] = T_1
-T0[-1] = T_2
+T_1 = 100
+T_2 = 0
 
 
 ###
-x,t,mu,sol = euler(Nt, dx, dt, T0, L, alpha, T_1, T_2)
+x,t,mu,sol = euler(Nt, dx, dt, u0, L, alpha, T_1, T_2)
 
 plt.figure(1)
 plt.contourf(x,t,sol)
