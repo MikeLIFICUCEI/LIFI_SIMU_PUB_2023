@@ -20,9 +20,9 @@ def solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, u_L, u_R):
     t = np.linspace(0, T, Nt+1)
     mu = alpha*(dt/dx**2)
     
-    print('dt=%g' % dt)
+    '''print('dt=%g' % dt)
     print('dx=%g' % dx)
-    print('mu=%g' % mu)
+    print('mu=%g' % mu)'''
     
     if isinstance(alpha, (float,int)):
         alpha = np.zeros(Nx+1) + alpha   
@@ -85,3 +85,4 @@ def solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, u_L, u_R):
         sol[n] = u[:]
         
     return u, x, t, sol
+
