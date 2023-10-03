@@ -40,6 +40,7 @@ sigma = 0.5
 Nt = 500
 dx = 0.05
 dt = 0.0004
+#CONDICION INICIAL
 u0 = lambda x:np. zeros (len (x))
 #Condiciones de frontera
 T_1 = 100
@@ -49,10 +50,12 @@ T_2 = 0
 ###
 x,t,mu,sol = euler(Nt, dx, dt, u0, L, alpha, T_1, T_2)
 
-plt.figure(1)
+plt.figure(1, figsize = [6,5])
 plt.contourf(x,t,sol)
-plt.ylabel('Tiempo[s]')
-plt.xlabel('Longitud[m]')
+plt.ylabel('Tiempo[s]', fontsize = 10)
+plt.xlabel('Longitud[m]' , fontsize = 10)
+
+plt.suptitle("Conducción de calor en barra delgada",fontsize = 15)
 plt.colorbar()
 
     
