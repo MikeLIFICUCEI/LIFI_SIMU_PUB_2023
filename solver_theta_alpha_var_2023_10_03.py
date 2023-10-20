@@ -104,36 +104,3 @@ def solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, u_L, u_R):
 
 #PARAMETROS
 
-L = 1
-I = 0
-#Alphas
-a0 =1
-a1 = a0/2
-a2 = a1/2
-
-b= [0.25,0.5]  #distancias
-f = 0 #forzamiento
-
-Nx = 100
-Nt = 200
-
-dt = 0.01
-dx = L/Nx
-
-#CONDICIONES DE FRONTERA
-u_L = 100
-u_R = 0
-#funcion alpha
-
-x = np.linspace(0, L, Nx+1)
-alpha =  np.piecewise(x, [x<b[0], ((x >= b[0]) & (x < b[1])),
-                          ((x >= b[1]) & (x <= L))], 
-                      [lambda x: a0, 
-                       lambda x: a1,
-                       lambda x: a2 ])
-
-theta = 0.5 #metodo
-
-u, x, t, sol, mu = solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, u_L, u_R)
- 
-plt.contourf(x,t[:-1],sol, cmap = 'inferno')

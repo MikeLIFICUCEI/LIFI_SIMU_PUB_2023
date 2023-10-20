@@ -174,3 +174,4 @@ mask = mascara(Nx, Ny, 0.1, 0.15, 0.2,0.3)
 theta = 0.5 #metodo
 x, y, t, sol = solver_dif(I, alpha, f, Lx, Ly, Nx, Ny, dt, T, mask, IBV, theta,
     U_0x, U_0y, U_Lx, U_Ly)
+
