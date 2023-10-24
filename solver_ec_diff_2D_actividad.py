@@ -183,19 +183,18 @@ X, Y = np.meshgrid(x,y)
 def tiempos (dt,instante):
     n = int(instante/dt)
     return n
-instantes= [0.1,2,4,4.8]
+instantes= [0.1,0.5,1,4]
 t_graf= np.zeros(len(instantes))
-for i in range(0,len(instantes)):
-    t_graf[i]=int(tiempos(dt, instantes[i]))
 
-
-for j in range(0,len(t_graf)):
+    
+for j in range(0,len(instantes)):
     arg = 220+j+1
+    t_graf[j]=int(tiempos(dt, instantes[j]))
     plt.figure(1)
     plt.subplot(arg)
     plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto",vmax= 15)
     plt.suptitle("Conducción de calor en superfice plana")
-    plt.text(0.7, 0.7, "tiempo ="+str(instantes[j]),color = "white")#+str(instantes[j-1]))
+    plt.text(0.65, 0.7, "tiempo ="+str(instantes[j]),color = "white",fontsize = 8)#+str(instantes[j-1]))
     
     
 
