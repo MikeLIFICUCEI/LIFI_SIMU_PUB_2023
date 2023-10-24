@@ -121,8 +121,8 @@ dt = 0.01
 dx = L/Nx
 
 #CONDICIONES DE FRONTERA
-u_L = 100
-u_R = 0
+T_L = 100
+T_R = 0
 #funcion alpha
 
 x = np.linspace(0, L, Nx+1)
@@ -134,6 +134,18 @@ alpha =  np.piecewise(x, [x<b[0], ((x >= b[0]) & (x < b[1])),
 
 theta = 0.5 #metodo
 
-u, x, t, sol, mu = solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, u_L, u_R)
- 
+
+u, x, t, sol, mu = solver(I, alpha, f, L, Nx, Nt,dx,dt, theta, T_L, T_R)
+b1v = b[0]*np.ones(len(t[:-1]))
+b2v = b[1]*np.ones(len(t[:-1]))
+
+plt.figure(1) 
 plt.contourf(x,t[:-1],sol, cmap = 'inferno')
+plt.plot(b1v,t[:-1],color="blue")
+plt.text(b[0], 0.1, "b1",color = "white",fontsize = 13)
+plt.plot(b2v,t[:-1],color="green")
+plt.text(b[1], 0.1, "b2",color = "white",fontsize = 13)
+plt.xlabel('Distancia (m)', fontsize = 10)
+plt.ylabel('Tiempo (s)' , fontsize = 10)
+plt.suptitle("Conducción de calor en medio heterogéneo",fontsize = 15)
+plt.colorbar()
