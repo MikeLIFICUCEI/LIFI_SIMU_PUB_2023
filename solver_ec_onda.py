@@ -73,10 +73,10 @@ X, T = np.meshgrid(x,t)
 plt.figure(1)
 plt.contourf(T,X,sol,50,cmap ='inferno')
 
-fig =plt.figure(2)
+fig =plt.figure()
 plts = []
 for i in range(m):
-    p, =plt.plot(sol[i,:])
+    p, =plt.plot(sol[i,:],color = 'red')
     plts.append([p])
 ani = animation.ArtistAnimation(fig, plts, interval = 50)
 

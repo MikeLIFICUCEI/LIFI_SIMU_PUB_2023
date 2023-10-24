@@ -153,7 +153,7 @@ f = 0 #forzamiento
 IBV = 0 #no se pa que sirve
 #Tiempo
 dt = 0.05
-T = 5 
+T = 5
 #condiciones de frontera
 U_0y = 100 # lado izquierdo
 U_0x = 0 # lado de abajo
@@ -175,27 +175,32 @@ theta=0.5
 x, y, t, sol = solver_dif(I, alpha, f, Lx, Ly, Nx, Ny, dt, T, mask, IBV, theta,
     U_0x, U_0y, U_Lx, U_Ly)
 
-m,n,p = sol.shape
-#x = np.linspace(0, Lx, m)
-#y = np.linspace(0, Ly, n)
-#t =np.linspace(0, T, p)
-X, Y = np.meshgrid(x,y)
+
 def tiempos (dt,instante):
-    n = int(instante/dt)
-    return n
+    N = int(instante/dt)
+    return N
 instantes= [0.1,0.5,1,4]
 t_graf= np.zeros(len(instantes))
+m,n,q = sol.shape
+X, Y = np.meshgrid(x,y)
 
-    
-for j in range(0,len(instantes)):
+ 
+for j in range(len(instantes)):
     arg = 220+j+1
     t_graf[j]=int(tiempos(dt, instantes[j]))
-    plt.figure(1)
+    plt.figure(2)
     plt.subplot(arg)
-    plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto",vmax= 15)
-    plt.suptitle("Conducción de calor en superfice plana")
+    plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto")
+    plt.suptitle("Conducción de calor en superfice plana",fontsize = 15)
     plt.text(0.65, 0.7, "tiempo ="+str(instantes[j]),color = "white",fontsize = 8)#+str(instantes[j-1]))
-    
-    
+   
 
-
+fig =plt.figure(1)
+plts = []
+ax = fig.add_subplot(111)
+for i in range(q):
+    pcol =ax.pcolormesh(X,Y, sol[:,:,i], cmap = 'inferno', shading = "auto")
+    plts.append([pcol])
+plt.colorbar(pcol)
+ani = animation.ArtistAnimation(fig, plts, interval = 100, blit = True)
+plt.show() 
