@@ -145,8 +145,8 @@ I = 0 # condiciones iniciales
 Lx = 1 
 Ly = 1 
 #Tamano de matriz
-Nx = 40 
-Ny = 40
+Nx = 80 
+Ny = 80
 #Parametros
 alpha = 0.01 #conductividad
 f = 0 #forzamiento
@@ -162,16 +162,41 @@ U_Lx = 0 # lado de arriba
 
 
 def mascara (Nx, Ny, i1, i2, j1,j2):#sirve para definir dominios
-    n1 = int(i1*Ny)
-    n2 = int(i2*Ny)
-    m1 = int(j1*Nx)
-    m2 = int(j2*Nx)
+    m1 = int(i1*Ny)
+    m2 = int(i2*Ny)
+    n1 = int(j1*Nx)
+    n2 = int(j2*Nx)
     mask = np.ones([Nx +1, Ny+1])
     mask[n1:n2,m1:m2] = 0;
     return mask
 mask = mascara(Nx, Ny, 0.1, 0.15, 0.2,0.3)
 
-theta = 0.5 #metodo
+theta=0.5
 x, y, t, sol = solver_dif(I, alpha, f, Lx, Ly, Nx, Ny, dt, T, mask, IBV, theta,
     U_0x, U_0y, U_Lx, U_Ly)
+
+m,n,p = sol.shape
+#x = np.linspace(0, Lx, m)
+#y = np.linspace(0, Ly, n)
+#t =np.linspace(0, T, p)
+X, Y = np.meshgrid(x,y)
+def tiempos (dt,instante):
+    n = int(instante/dt)
+    return n
+instantes= [0.1,2,4,4.8]
+t_graf= np.zeros(len(instantes))
+for i in range(0,len(instantes)):
+    t_graf[i]=int(tiempos(dt, instantes[i]))
+
+
+for j in range(0,len(t_graf)):
+    arg = 220+j+1
+    plt.figure(1)
+    plt.subplot(arg)
+    plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto",vmax= 15)
+    plt.suptitle("Conducción de calor en superfice plana")
+    plt.text(0.7, 0.7, "tiempo ="+str(instantes[j]),color = "white")#+str(instantes[j-1]))
+    
+    
+
 
