@@ -134,3 +134,36 @@ def ec_onda(I, V, f, c, U_0, U_L, L, dt, C, T,beta):
         sol[n] = u
     return u, x, t, sol
 
+#PARAMETROS
+c = 1#velocidad de propagacion
+L = 10 #longitud
+C = 1 #numero de coulomb
+L = 1
+T = 40
+Nx = 200
+V =  0 #velocidad inicial de la perturbacion
+#f = 0 #forzamiento
+f = lambda x,t: 0.4*np.sin((np.pi/L)*3*x)
+
+
+
+sf = 1.5 # factor de lentitud
+medium = [0.2,0.8] # intervalo del medio
+
+
+#condicion inicial
+I = lambda x: np.exp(-((x-5)**2)/0.25)
+
+c1 = 1
+c2 = c1/sf
+c3= c2/sf
+
+dt = (L/Nx)/c1 #paso de tiempo
+
+def c(x):
+    cx = np.piecewise(x, [x < medium [0],\
+                          ((x >= medium[0]) & (x < medium[1])), \
+                              x >= medium[1]],\
+                      [c1,c2,c3])
+    return cx
+ 
