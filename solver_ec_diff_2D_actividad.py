@@ -139,6 +139,7 @@ def solver_dif(I, a, f, Lx, Ly, Nx, Ny, dt, T, mask, IBV, theta=0.5,
         u_n, u = u, u_n
         sol[:,:,n] = u
     return x, y, t, sol
+#%%
 
 I = 0 # condiciones iniciales
 #Longitudes
@@ -184,23 +185,22 @@ t_graf= np.zeros(len(instantes))
 m,n,q = sol.shape
 X, Y = np.meshgrid(x,y)
 
- 
+#%% 
 for j in range(len(instantes)):
     arg = 220+j+1
     t_graf[j]=int(tiempos(dt, instantes[j]))
     plt.figure(2)
     plt.subplot(arg)
-    plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto")
+    plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto",vmax=15)
     plt.suptitle("Conducción de calor en superfice plana",fontsize = 15)
     plt.text(0.65, 0.7, "tiempo ="+str(instantes[j]),color = "white",fontsize = 8)#+str(instantes[j-1]))
-   
-
+#%%   
 fig =plt.figure(1)
 plts = []
 ax = fig.add_subplot(111)
 for i in range(q):
-    pcol =ax.pcolormesh(X,Y, sol[:,:,i], cmap = 'inferno', shading = "auto")
-    plts.append([pcol])
-plt.colorbar(pcol)
+    p =ax.pcolormesh(X,Y, sol[:,:,i], cmap = 'inferno', shading = "auto", vmax = 15)
+    plts.append([p])
+plt.colorbar(p)
 ani = animation.ArtistAnimation(fig, plts, interval = 100, blit = True)
 plt.show() 
