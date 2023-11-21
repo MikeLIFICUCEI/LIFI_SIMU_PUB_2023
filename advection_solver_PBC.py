@@ -105,10 +105,10 @@ L = 1.0
 sigma = 0.05
 U0 = 0 
 dt = 0.01
-C = 0.8
+C = 0.9
 T = 20
 v = 1.0
-esquema = 'LF'
+esquema = 'UP'
 """
 esquema : String,
     FE: Esquema forwad Euler
@@ -122,7 +122,8 @@ cf_periodicas : Bolean, opcional
 """
 
 def I(x): return np.exp(-0.5*((x-L/2)/sigma)**2)
-cf_periodicas=True
+#def I(x): return np.cos(np.pi*5/L*(x-L/10) if x < L/5 else 0)
+#cf_periodicas=True
 
 
 u, x, t, sol = solver(I, U0, v, L, dt, C, T,esquema)
