@@ -101,3 +101,36 @@ def solver(I, U0, v, L, dt, C, T,esquema, cf_periodicas=True):
         u_nm1, u_n, u = u_n, u, u_nm1
         sol[n] = u
     return u, x, t, sol
+L = 1.0
+sigma = 0.05
+U0 = 0 
+dt = 0.01
+C = 0.8
+T = 20
+v = 1.0
+esquema = 'LF'
+"""
+esquema : String,
+    FE: Esquema forwad Euler
+    LF: Esquema Leap Frog
+    UP: Esquema Upwind
+    LW: Esquema Lax-Wendroff
+    
+cf_periodicas : Bolean, opcional
+    True: condiciones de frontera periódicas
+    False: Fronteras abiertas
+"""
+
+def I(x): return np.exp(-0.5*((x-L/2)/sigma)**2)
+cf_periodicas=True
+
+
+u, x, t, sol = solver(I, U0, v, L, dt, C, T,esquema)
+
+m,n = sol.shape
+fig = plt.figure(3)
+plts = []
+for  i in range(m):
+    p, = plt.plot(x,sol[i,:], 'k')
+    plts.append([p])
+ani = animation.ArtistAnimation(fig, plts,interval = 10)
