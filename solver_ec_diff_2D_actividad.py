@@ -194,6 +194,7 @@ for j in range(len(instantes)):
     plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "inferno",shading = "auto",vmax=15)
     plt.suptitle("Conducción de calor en superfice plana",fontsize = 15)
     plt.text(0.65, 0.7, "tiempo ="+str(instantes[j]),color = "white",fontsize = 8)#+str(instantes[j-1]))
+   
 #%%   
 fig =plt.figure(1)
 plts = []

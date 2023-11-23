@@ -112,22 +112,24 @@ dt = 0.1
 C = 1 #numero de Courant
 T = 20
 V =  0 #velocidad inicial de la perturbacion
-A = 1
-M = 2
+A = 0.9
+
 #Condiciones de frontera
 
 #%%  ACTIVIDAD 1
 f = None #forzamiento
+M = 3
 #condicion inicial
 I = lambda x:A*np.sin(np.pi/L*M*x)#U(X,0)
 U_0 = 0 #U(0,t)
 U_L = 0 # U(L,t)
 
+
 #%% ACTIVIDAD 2
-f = lambda x,t: 0.05*np.sin(x*M*np.pi/L)
+"""f = lambda x,t: 0.05*np.sin(x*M*np.pi/L)
 I = lambda x: np.exp(-(x-5)**2/0.25)
 U_0 = None #U(0,t)
-U_L = None # U(L,t)
+U_L = None # U(L,t)"""
 
 #%%
 
@@ -140,12 +142,14 @@ X, T = np.meshgrid(x,t)
 
 plt.figure(1)
 plt.contourf(T,X,sol,20,cmap ='inferno')
-plt.colorbar()
+plt.xlabel("Distancia (m)")
+plt.ylabel("Amplitud (m)")
+plt.colorbar(label='Amplitud [m]')
 #%%
 def tiempos (dt,instante):
     N = int(instante/dt)
     return N
-instantes= [0.1,1,2,3]
+instantes= [0.1,2,4,6]
 t_graf= np.zeros(len(instantes))
 
 fig=plt.figure(figsize=(10,6))
@@ -154,12 +158,12 @@ for j in range(len(instantes)):
     t_graf[j]=int(tiempos(dt, instantes[j]))
     plt.subplot(arg)
     plt.plot(sol[int(t_graf[j]),:],color = "blue")
-    plt.suptitle("Conducción de calor en superfice plana",fontsize = 15)
     plt.ylim((-1,1))
-    plt.text(60, 0, "tiempo ="+str(instantes[j]),color = "k",fontsize = 12)#+str(instantes[j-1]))
-    plt.xlabel("Distancia (m)")
-    plt.ylabel("Amplitud (m)")
-
+    plt.title("Cuerda en tiempo = "+str(instantes[j])+"s")
+    #plt.text(60, 0, "tiempo ="+str(instantes[j]),color = "k",fontsize = 12)#+str(instantes[j-1]))
+    plt.ylabel("Distancia (m)")
+    plt.xlabel("Tiempo (s)")
+    plt.tight_layout()
 #%%
 fig =plt.figure(3,figsize=(8,5))
 plts = []
