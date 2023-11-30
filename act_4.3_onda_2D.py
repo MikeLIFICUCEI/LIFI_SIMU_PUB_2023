@@ -99,19 +99,7 @@ def mask_circle(Nx,Ny,r):
     mask = np.sqrt((xm-cx)**2+(ym-cy)**2) >= r
     mask = mask.astype(bool)
     return mask
-"""def mask_arrayB(Nx,Ny,i1,i2,j1,j2):
-    _i1 = int(i1*Ny)
-    _i2 = int(i2*Ny)
-    _j1 = int(j1*Nx)
-    _j2 = int(j2*Nx)
-    mask = np.ones([Nx+1, Ny+1])
-    mask[_i1:_i2,_j1:_j2] = 0;
-    mask = mask.astype(bool)
-    return mask
-mask1 = mask_arrayB(Nx, Ny, 0.3, 0.2, 0.1, 0.2)
-mask2 = mask_arrayB(Nx, Ny, 0.4, 0.6, 0.55, 0.8)
 
-mask = mask1*mask2"""
 r=10
 mask = mask_circle(Nx,Ny,r)
 
@@ -137,6 +125,7 @@ for j in range(len(instantes)):
     plt.pcolormesh(X,Y,sol[:,:,int(t_graf[j])],cmap = "viridis",shading = "auto",vmax=0.25)
     plt.suptitle("Onda en 2D",fontsize = 15)
     plt.text(0.65, 0.7, "tiempo ="+str(instantes[j]),color = "white",fontsize = 8)#+str(instantes[j-1]))
+    plt.colorbar()
 
 
 #%%

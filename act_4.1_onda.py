@@ -164,6 +164,7 @@ for j in range(len(instantes)):
     plt.ylabel("Distancia (m)")
     plt.xlabel("Tiempo (s)")
     plt.tight_layout()
+    plt.colorbar()   
 #%%
 fig =plt.figure(3,figsize=(8,5))
 plts = []
