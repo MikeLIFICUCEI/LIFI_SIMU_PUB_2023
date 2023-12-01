@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Universidad de Guadalajara
-CUCEI, Licenciatura en Física
-Curso: Simulación de Procesos Físicos.
-@author: Jorge M. Montes Arechiga, Departamento de Física.
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +12,7 @@ def ec_onda(I, V, f, c, U_0, U_L, L, dt, C, T,beta):
     if isinstance(c, (float,int)):
         c_max = c
     elif callable(c):
-        c_max = max([c(x_) for x_ in np.linspace(0, L, 101)])
+        c_max = max([c(x_) for x_ in np.linspace(0, L,101)])
         
     dx = dt*c_max/(beta*C) # beta es el factor de seguridad (beta=<1)
     Nx = int(round(L/dx))
@@ -31,7 +25,11 @@ def ec_onda(I, V, f, c, U_0, U_L, L, dt, C, T,beta):
     if isinstance(c, (float,int)): # Si es un valor
         c = np.zeros(x.shape) + c
     elif callable(c):
-        c = c(x)
+        # calculamos c con la funcion
+        c_0 = np.zeros(x.shape)
+        for i in range(Nx+1):
+            c_0[i] = c(x[i])
+        c = c_0
 
     q = c**2
     C2 = (dt/dx)**2; dt2 = dt*dt    # variables de apoyo
@@ -134,32 +132,29 @@ def ec_onda(I, V, f, c, U_0, U_L, L, dt, C, T,beta):
         sol[n] = u
     return u, x, t, sol
 
-#PARAMETROS
-beta =  0.1
-c = 1#velocidad de propagacion
-L = 10 #longitud
+
+L = 1 #longitud
 C = 1 #numero de coulomb
 L = 1
-T = 40
+
 Nx = 100
 V =  0 #velocidad inicial de la perturbacion
-#f = 0 #forzamiento
-f = lambda x,t: 0.4*np.sin((np.pi/L)*3*x)
+f = None
 xc =0
 sigma =0.05
-
+beta = 1 #factor de seguridad
 sf = 1.5 # factor de lentitud
 medium = [0.4,0.7] # intervalo del medio
-
-
+#Condiciones de frontera
+U_0 = None
+U_L = None
 #condicion inicial
-I = lambda x: np.exp(-((x-xc)**2)/(2*sigma))
+I = lambda x: np.exp(-((x-xc)/(2*sigma))**2)
 
 c1 = 1
 c2 = c1/sf
 c3= c2/sf
 dt = (L/Nx)/c1 #paso de tiempo
-
 def c(x):
     cx = np.piecewise(x, [x < medium [0],\
                           ((x >= medium[0]) & (x < medium[1])), \
@@ -167,4 +162,48 @@ def c(x):
                       [c1,c2,c3])
     return cx
 
-u, x, t, sol = ec_onda(I, V, f, c, U_0, U_L, L, dt, C, T,beta)
+Tao = 2*(medium[0]/c1 + (medium[1] - medium[0])/c2 + (L - medium[1])/c3)
+
+u, x, t, sol = ec_onda(I, V, f, c, U_0, U_L, L, dt, C, Tao,beta)
+#%%
+m,n = sol.shape
+x = np.linspace(0, L, n)
+t =np.linspace(0, Tao, m)
+X, T = np.meshgrid(x,t)
+
+plt.figure(1)
+plt.contourf(T,X,sol,20,cmap ='viridis')
+plt.xlabel("Tiempo (t)")
+plt.ylabel("Posición (m)")
+plt.colorbar(label='Amplitud [m]')
+#%%
+def tiempos (dt,instante):
+    N = int(instante/dt)
+    return N
+instantes= [0.01*Tao,0.20*Tao,0.5*Tao,0.99*Tao]
+t_graf= np.zeros(len(instantes))
+
+fig=plt.figure(figsize=(10,6))
+for j in range(len(instantes)):
+    arg = 220+j+1
+    t_graf[j]=int(tiempos(dt, instantes[j]))
+    plt.subplot(arg)
+    plt.plot(x,sol[int(t_graf[j]),:],color = "blue")
+    plt.plot(medium[0]*np.ones(20),np.linspace(-1,1,20),'red')
+    plt.plot(medium[1]*np.ones(20),np.linspace(-1,1,20),'red')
+    plt.ylim((-1,1))
+    plt.title("Cuerda en tiempo = "+str(instantes[j])+"s")
+    #plt.text(60, 0, "tiempo ="+str(instantes[j]),color = "k",fontsize = 12)#+str(instantes[j-1]))
+    plt.xlabel("Posición en x (m)")
+    plt.ylabel("Amplitud (m)")
+    plt.grid()
+    plt.tight_layout()   
+#%%
+fig =plt.figure(3,figsize=(8,5))
+plts = []
+for i in range(m):
+    p, =plt.plot(sol[i,:],color="red")
+    plts.append([p])
+ani = animation.ArtistAnimation(fig, plts, interval = 50)
+
+plt.show()
